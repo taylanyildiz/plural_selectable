@@ -4,4 +4,4 @@
 
 ## 0.0.2
 
-* TODO: Added backbutton on subBranches selection pages and changable color added.
+* TODO: Added backbutton on subBranches selection pages and changeable color added.
