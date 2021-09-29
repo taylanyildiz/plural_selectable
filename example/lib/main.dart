@@ -78,6 +78,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
               ),
+              titleStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
               branchCount: branches.length,
               subBranches: SubBranchActionBuilderDelegate(
                 builder: (context, branchIndex, subIndex) => Subs(

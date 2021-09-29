@@ -83,7 +83,7 @@ class Selectable<T> extends StatefulWidget {
     this.crossAxisSpacing = 5.0,
     this.mainAxisSpacing = 0.0,
     this.childAspectRatio = 0.75,
-    this.maxCrossAxisExtent = 180.0,
+    this.maxCrossAxisExtent = 200.0,
     this.duration = const Duration(milliseconds: 750),
     this.transtionDuration = const Duration(milliseconds: 500),
     this.activeColor,
@@ -91,6 +91,7 @@ class Selectable<T> extends StatefulWidget {
     this.decoration,
     this.titleActiveStyle,
     this.titleDeactiveStyle,
+    this.titleStyle,
     this.curve,
     this.reverseDuration,
     this.backgroundColor,
@@ -168,6 +169,9 @@ class Selectable<T> extends StatefulWidget {
 
   /// Background box decoration.
   final BoxDecoration? decoration;
+
+  /// Title [TextStyle]
+  final TextStyle? titleStyle;
 
   static SelectableState? of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_SelectableScope>()?.state;
@@ -269,7 +273,6 @@ class SelectableState<T> extends State<Selectable>
   }
 
   GridView get buildGridView => GridView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: widget.maxCrossAxisExtent,
           crossAxisSpacing: widget.crossAxisSpacing,
@@ -292,7 +295,7 @@ class SelectableState<T> extends State<Selectable>
           color: Colors.transparent,
           child: Column(
             children: [
-              Expanded(flex: 3, child: branchesChild(context, index)),
+              Expanded(flex: 4, child: branchesChild(context, index)),
               Expanded(child: title(index)),
             ],
           ),
@@ -305,8 +308,15 @@ class SelectableState<T> extends State<Selectable>
         isSlected: _getSelectedBrach(index),
       );
 
-  Widget title(index) =>
-      Text(widget.title.call(index), style: const TextStyle());
+  Widget title(index) => Text(
+        widget.title.call(index),
+        style: widget.titleStyle ??
+            const TextStyle(
+              color: Colors.black,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+            ),
+      );
 
   @override
   Widget build(BuildContext context) {

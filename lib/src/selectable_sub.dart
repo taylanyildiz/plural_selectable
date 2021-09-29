@@ -28,6 +28,10 @@ class SelectableSub extends StatefulWidget {
     this.decoration,
     this.titleActiveStyle,
     this.titleDeactiveStyle,
+    this.backButton,
+    this.checkBackground,
+    this.checkIconColor,
+    this.titleBackButton,
   }) : super(key: key);
 
   /// [Hero] animation tag.
@@ -58,6 +62,18 @@ class SelectableSub extends StatefulWidget {
 
   /// return value of which subBranches selection
   final Function(int subIndex, bool checked) onSelection;
+
+  /// [Widget] backbutton.
+  final Widget? backButton;
+
+  /// [String] title of back button.
+  final String? titleBackButton;
+
+  /// [Color] of checked background.
+  final Color? checkBackground;
+
+  /// [Color] of checked icon color.
+  final Color? checkIconColor;
 
   static SelectableSubState of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_SelectableSubScope>()!.state;
@@ -113,43 +129,46 @@ class SelectableSubState<T> extends State<SelectableSub> {
   GestureDetector buildBackButton(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.pop(context),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 20.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0),
-          color: Colors.black38,
-        ),
-        padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
-          horizontal: 20.0,
-        ),
-        child: const Material(
-          color: Colors.transparent,
-          child: Text(
-            'Back',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
+      child: widget.backButton ??
+          Container(
+            margin: const EdgeInsets.only(bottom: 20.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              color: Colors.black54,
+            ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 10.0,
+              horizontal: 25.0,
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: Text(
+                widget.titleBackButton ?? 'Back',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
     );
   }
 
   Column selectableHeaderContain(context) {
     return Column(
       children: [
-        SizedBox(
-          width: 200.0,
-          height: 200.0,
+        Expanded(
           child: Hero(
             tag: widget.heroTag,
-            child: Material(color: Colors.transparent, child: widget.child),
+            child: Material(
+              color: Colors.transparent,
+              child: widget.child,
+            ),
           ),
         ),
         Expanded(
+          flex: 4,
           child: GestureDetector(
             onTap: () => Navigator.pop(context),
             child: ListView(
@@ -179,7 +198,7 @@ class SelectableSubState<T> extends State<SelectableSub> {
             borderRadius: BorderRadius.circular(8.0),
           ),
       padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
       child: Row(
         children: [
           Material(
@@ -209,9 +228,11 @@ class SelectableSubState<T> extends State<SelectableSub> {
         shape: BoxShape.circle,
         color: _selectedItem[index] ? Colors.blue : Colors.white,
       ),
+      padding: const EdgeInsets.all(5.0),
       child: const Icon(
         Icons.done,
         color: Colors.white,
+        size: 26.0,
       ),
     );
   }

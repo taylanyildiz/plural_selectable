@@ -10,6 +10,8 @@ abstract class SelectableAction extends StatelessWidget {
   const SelectableAction({
     required this.isSlected,
     required this.index,
+    this.checkedIconColor,
+    this.selectedBackgroundColor,
   });
 
   /// Which item onPress calling.
@@ -17,6 +19,12 @@ abstract class SelectableAction extends StatelessWidget {
 
   /// If any of Branch's SubBranch is true, it will also return true here.
   final bool isSlected;
+
+  /// Color circle background.
+  final Color? selectedBackgroundColor;
+
+  /// Icon color circle icon checked.
+  final Color? checkedIconColor;
 
   void _selectItem(int index, BuildContext context) {
     if (Selectable.of(context) != null) {
@@ -44,8 +52,8 @@ abstract class SelectableAction extends StatelessWidget {
           top: 10.0,
           right: 0.0,
           child: Container(
-            height: 30.0,
-            width: 30.0,
+            height: 35.0,
+            width: 35.0,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.blue,
@@ -54,6 +62,7 @@ abstract class SelectableAction extends StatelessWidget {
               child: Icon(
                 Icons.done,
                 color: Colors.white,
+                size: 27.0,
               ),
             ),
           ),
