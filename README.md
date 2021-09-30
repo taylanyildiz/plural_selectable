@@ -4,12 +4,33 @@
 
 <img src="https://user-images.githubusercontent.com/37551474/135257070-b272dc16-effa-4fb1-a66f-242e1cc8df27.gif" width="220">
 
+
+
+## Library
+
+```dart
+import 'package:plural_selectable/plural_selectable.dart';
+```
+
+
+
+## Example
+### [GitHub](https://github.com/taylanyildiz/plural_selectable)
+### [Github Main](https://github.com/taylanyildiz/plural_selectable/blob/master/example/lib/main.dart)
+
+</p>
+
+- ## onSelection Function
+</p>
+
 ```dart
 void onSelection(int branch, int sub, bool checked) {
   branches[branch].subBranches![sub].isSelected = checked;
   setState(() {});
 }
 ```
+- ## Selectable Widget
+</p>
 
 ```dart
   Selectable(
@@ -41,7 +62,11 @@ void onSelection(int branch, int sub, bool checked) {
 - Your model must have only isSelected [bool] veriable. 
 - You are free to choose your model method as you like.
 
-### Model List
+</p>
+
+- ## Model List
+</p>
+
 ```dart
 var branches = [
     BranchModel(
@@ -115,49 +140,49 @@ var branches = [
 ## What does want Widget.
 
 ### OnPress [Function] selection
- - Function(int branch, int sub, bool checked) onSelection;
+ - Function(int branch, int sub, bool checked) onSelection
 
 ### Branches return model.
- - int branchCount;
+ - int branchCount
 
 ### Branches title. Botttom of branch child.
- - String Function(int branch) title;
+ - String Function(int branch) title
 
 ### Skeleton of Branches [Widget] child.
- - BranchBuilder branchChild;
+ - BranchBuilder branchChild
 
 ### [SubBranchActionDelegate] subBranches.
- - SubBranchActionBuilderDelegate subBranches;
+ - SubBranchActionBuilderDelegate subBranches
 
 ### A collection of common animation curves.
 ### [Curves.easeInCirc] FadeTransition.
- - Curve? curve;
+ - Curve? curve
 
 ### Entry create animation duration
- - Duration duration;
+ - Duration duration
 
 ### [Color] background color. SubBranches selection screen.
- - Color? backgroundColor;
+ - Color? backgroundColor
 
 ### SubBranch page transition animation time
- - Duration transtionDuration;
+ - Duration transtionDuration
 
 ### [Duration] animation reverse duration.
- - Duration? reverseDuration;
+ - Duration? reverseDuration
 
 ### Background blur of the SubBranch page.
- - ImageFilter? imageFilter;
+ - ImageFilter? imageFilter
 
 ### The distance between branches is horizontal.
 ### default value is 5.0
- - double crossAxisSpacing;
+ - double crossAxisSpacing
 
 #### The distance between branches is vertical.
 #### default value is 0.0
- - final double mainAxisSpacing;
+ - final double mainAxisSpacing
 
 ### The ratio of the cross-axis to the main-axis extent of each child.
- - double childAspectRatio;
+ - double childAspectRatio
 
  
  #### The maximum extent of tiles in the cross axis.
@@ -168,19 +193,37 @@ var branches = [
  #### For example, if the grid is vertical, the grid is 500.0 pixels wide, and
  #### [maxCrossAxisExtent] is 150.0, this delegate will create a grid with 4
  #### Columns that are 125.0 pixels wide.
- - double maxCrossAxisExtent;
+ - double maxCrossAxisExtent
 
 ### Unselected background color.
- - Color? deactiveColor;
+ - Color? deactiveColor
 
 ### Selected background color.
- -  Color? activeColor;
+ -  Color? activeColor
 
 ### Selected Title style.
- -  TextStyle? titleActiveStyle;
+ -  TextStyle? titleActiveStyle
 
 ### Unselected title style.
- -  TextStyle? titleDeactiveStyle;
+ -  TextStyle? titleDeactiveStyle
 
 ### Background box decoration.
- -  BoxDecoration? decoration;
+ -  BoxDecoration? decoration
+
+### [Widget] backbutton.
+ -  Widget? backButton
+
+### [String] title of back button.
+ - String? titleBackButton
+
+### [Color] of checked background.
+ - Color? checkBackground
+
+### [Color] of checked icon color.
+ - Color? checkIconColor
+
+### Color circle background.
+ - Color? selectedBackgroundColor
+
+### Icon color circle icon checked.
+ - Color? checkedIconColor.

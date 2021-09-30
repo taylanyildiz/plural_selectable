@@ -95,6 +95,12 @@ class Selectable<T> extends StatefulWidget {
     this.curve,
     this.reverseDuration,
     this.backgroundColor,
+    this.backButton,
+    this.checkBackground,
+    this.checkIconColor,
+    this.titleBackButton,
+    this.checkedIconColor,
+    this.selectedBackgroundColor,
   }) : super(key: key);
 
   /// OnPress [Function] selection
@@ -172,6 +178,24 @@ class Selectable<T> extends StatefulWidget {
 
   /// Title [TextStyle]
   final TextStyle? titleStyle;
+
+  /// [Widget] backbutton.
+  final Widget? backButton;
+
+  /// [String] title of back button.
+  final String? titleBackButton;
+
+  /// [Color] of checked background.
+  final Color? checkBackground;
+
+  /// [Color] of checked icon color.
+  final Color? checkIconColor;
+
+  /// Color circle background.
+  final Color? selectedBackgroundColor;
+
+  /// Icon color circle icon checked.
+  final Color? checkedIconColor;
 
   static SelectableState? of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_SelectableScope>()?.state;
@@ -258,6 +282,10 @@ class SelectableState<T> extends State<Selectable>
           decoration: widget.decoration,
           titleActiveStyle: widget.titleActiveStyle,
           titleDeactiveStyle: widget.titleDeactiveStyle,
+          backButton: widget.backButton,
+          checkBackground: widget.checkBackground,
+          checkIconColor: widget.checkIconColor,
+          titleBackButton: widget.titleBackButton,
         ),
         duration: widget.transtionDuration,
         imageFilter: widget.imageFilter,
@@ -306,6 +334,8 @@ class SelectableState<T> extends State<Selectable>
         child: widget.branchChild.call(context, index),
         index: index,
         isSlected: _getSelectedBrach(index),
+        checkedIconColor: widget.activeColor,
+        selectedBackgroundColor: widget.activeColor,
       );
 
   Widget title(index) => Text(

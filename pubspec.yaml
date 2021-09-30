@@ -1,6 +1,6 @@
 name: plural_selectable
 description: A Flutter implementation of selectable list item with directional slide actions that can be dismissed.
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/taylanyildiz/plural_selectable
 
 environment:

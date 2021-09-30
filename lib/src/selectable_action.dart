@@ -1,8 +1,5 @@
-// ignore_for_file: use_key_in_widget_constructors
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'selectable.dart';
 
 abstract class SelectableAction extends StatelessWidget {
@@ -54,14 +51,14 @@ abstract class SelectableAction extends StatelessWidget {
           child: Container(
             height: 35.0,
             width: 35.0,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.blue,
+              color: selectedBackgroundColor ?? Colors.blue,
             ),
-            child: const Center(
+            child: Center(
               child: Icon(
                 Icons.done,
-                color: Colors.white,
+                color: checkedIconColor ?? Colors.white,
                 size: 27.0,
               ),
             ),
@@ -79,9 +76,13 @@ class BranchItem extends SelectableAction {
     required this.child,
     required this.index,
     this.isSlected = false,
+    this.checkedIconColor,
+    this.selectedBackgroundColor,
   }) : super(
           index: index,
           isSlected: isSlected,
+          checkedIconColor: checkedIconColor,
+          selectedBackgroundColor: selectedBackgroundColor,
         );
 
   /// Hagi Branch'in tıklandığını anlamamız için gerekli
@@ -92,6 +93,12 @@ class BranchItem extends SelectableAction {
 
   /// Bu widget'in içinde olacak widget.
   final Widget child;
+
+  /// Color circle background.
+  final Color? selectedBackgroundColor;
+
+  /// Icon color circle icon checked.
+  final Color? checkedIconColor;
 
   @override
   Widget builder(BuildContext context) => child;
