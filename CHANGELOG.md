@@ -17,3 +17,8 @@
 *  `bool` isSelected veraiable in builders has been added
 *  isSelected veriable in models has been removed
 *  all model have different id. 
+
+## 1.0.1
+ 
+ * TODO:
+ * Inner detail screen list view has been changed to `Expanded` widget. 

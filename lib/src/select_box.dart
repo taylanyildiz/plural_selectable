@@ -257,7 +257,10 @@ class _MultiSelect extends State<_MultiSelectDetailScreen> {
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  Column(children: [_buildParent, buildChildList]),
+                  Column(children: [
+                    _buildParent,
+                    buildChildList,
+                  ]),
                   Positioned(bottom: 10.0, child: widget.closeButton),
                 ],
               ),
@@ -269,14 +272,13 @@ class _MultiSelect extends State<_MultiSelectDetailScreen> {
   }
 
   Widget get _buildParent {
-    return Flexible(
-      child: FractionallySizedBox(
-        heightFactor: .55,
-        widthFactor: .55,
-        child: Hero(
-          tag: widget.heroTag,
-          child: widget.header,
-        ),
+    final size = MediaQuery.of(context).size;
+    return SizedBox(
+      height: size.height * .3,
+      width: size.width * .7,
+      child: Hero(
+        tag: widget.heroTag,
+        child: widget.header,
       ),
     );
   }
@@ -286,6 +288,7 @@ class _MultiSelect extends State<_MultiSelectDetailScreen> {
       child: Padding(
         padding: const EdgeInsets.only(top: 10.0),
         child: ListView.builder(
+          shrinkWrap: true,
           padding: const EdgeInsets.only(bottom: 20.0),
           itemCount: widget.innerModel.length,
           scrollDirection: Axis.vertical,
