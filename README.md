@@ -1,229 +1,169 @@
-# plural_selectable
+# Plural Selectable
+## <img width="220px" src ="https://user-images.githubusercontent.com/37551474/147578614-88d24ee1-406d-4b89-ab9d-d229bbb26fdd.png"/>
 
-- A widget that helps you with your plurals selection
+* You will now be able to make multiple selections within your model. And you will be able to create a widget of your own by customizing this selection style as you wish.
 
-<img src="https://user-images.githubusercontent.com/37551474/135257070-b272dc16-effa-4fb1-a66f-242e1cc8df27.gif" width="220">
+* First of all, you must have a model and there is a variable requested from you in this model. Let's explain with an example
 
+* For example, you have a Map. There must be a list structure in this model, if you do not have a list, you will encounter an error. It doesn't matter if your list is empty. You have different models in this list. The thing to remember is that the different structures in this list model must be distinguished from each other, and each of them must have an id variable. With this id, it can be easily distinguished whether it is selected or not.
+Remember, the ids in each list must be different.
 
+## Install
 
-## Library
-
-```dart
-import 'package:plural_selectable/plural_selectable.dart';
+In the `pubspec.yaml` of your project, add the following dependenciy:
+```yaml
+dependencies:
+  plural_selectable: <latest_version>
 ```
 
+<img src = "https://user-images.githubusercontent.com/37551474/147637107-0ee5d70a-cc37-46c3-84ad-385833735411.gif" width="220px"> <img src="https://user-images.githubusercontent.com/37551474/135257070-b272dc16-effa-4fb1-a66f-242e1cc8df27.gif" width="220px"> 
 
 
-## Example
-### [GitHub](https://github.com/taylanyildiz/plural_selectable)
-### [Github Main](https://github.com/taylanyildiz/plural_selectable/blob/master/example/lib/main.dart)
+## Getting started
 
-</p>
+###
 
-- ## onSelection Function
-</p>
-
-```dart
-void onSelection(int branch, int sub, bool checked) {
-  branches[branch].subBranches![sub].isSelected = checked;
-  setState(() {});
+```json
+{
+    "name":"--",
+    "list":[
+        {
+            "id":1,
+            "name": "---",
+            "value": "---",
+        }
+         {
+             "id":2,
+            "name": "---",
+            "value": "---",
+        }
+    ],
 }
 ```
-- ## Selectable Widget
-</p>
 
 ```dart
-  Selectable(
-      onSelection: onSelection,
-      branchChild: (context, index) {
-        return Container(
-          margin: const EdgeInsets.all(10.0),
-          color: Colors.red,
-          child: Center(child: Text(branches[index].name!)),
-        );
-      },
-      branchCount: branches.length,
-      subBranches: SubBranchActionBuilderDelegate(
-        builder: (context, branchIndex, subIndex) => Subs(
-          leading: const Icon(Icons.home),
-          title: branches[branchIndex].subBranches![subIndex].text!,
-        ),
-        selected: (index) => List.generate(
-          branches[index].subBranches!.length,
-          (subIndex) => branches[index].subBranches![subIndex].isSelected!,
+List<SelectModel> modelList = [
+  SelectModel(id: 0, name: "test 1 select", list: [
+    InnerSelectModel(id: 0, value: "test 1 inner"),
+    InnerSelectModel(id: 1, value: "test 2 inner"),
+    InnerSelectModel(id: 2, value: "test 3 inner"),
+  ]),
+  SelectModel(id: 1, name: "test 1 select", list: [
+    InnerSelectModel(id: 3, value: "test 3 inner"),
+    InnerSelectModel(id: 4, value: "test 4 inner"),
+    InnerSelectModel(id: 5, value: "test 5 inner"),
+  ]),
+];
+```
+
+- After adding your model to the widget, you must specify which list is selectable.
+
+```dart
+    selectList: map,
+    innerList: (model) => model["list"],
+    // This model returns your original model and waits for you to display your selectable list.
+    // each model returns by traversing your list structure.
+```
+
+```dart
+ Selectable<Map>(
+    selectList: map,
+    innerList: (model) => model["list"],
+    builder: (context, model) {
+    return SelectableHeader(
+        title: Text("${model["name"]}"),
+    );
+    },
+    innerBuilder: (context, inner, index) {
+    return InnerSelect(
+        leading: Text("${inner[index]["value"]}"),
+    );
+    },
+    onSelect: (model, isSelect) {},
+    selected: selected,
+)
+```
+
+
+## Selected
+
+If there are previously selected structures in the model you have. And you want to show that they are selected in the widget.
+
+```dart
+selected: [1,3,5]
+```
+
+As you can see above, you can specify that they are selected by writing the selected ones as a list.
+
+
+```dart
+Selectable<SelectModel>(
+  parentList: modelList,
+  childList: (model) => model.list,
+  builder: (context, model, isSlected) {
+    return SelectableParent(
+      decoration: BoxDecoration(
+        color: isSlected ? Colors.green[400] : Colors.red,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            bottom: 4.0,
+            left: 3.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Plural Selectable",
+                  style: TextStyle(
+                    color:
+                        isSlected ? Colors.white : Colors.black,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "Plural Selectable",
+                  style: TextStyle(
+                    color:
+                        isSlected ? Colors.white : Colors.black45,
+                    fontSize: 13.0,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  },
+  childBuilder: (context, inner, index, isSelected) {
+    debugPrint("Check $isSelected");
+    return SelectableChild(
+      selected: isSelected,
+      leading: Text(
+        "${inner[index].value}",
+        style: TextStyle(
+          color: isSelected ? Colors.white : Colors.black,
+          fontSize: 18.0,
+          fontWeight: FontWeight.bold,
         ),
       ),
-      title: (index) => branches[index].name!,
-    ),
-  ),
-```
-## Firstly create a model for your selections.
-- You can create this model however you want.
-- Your model must have only isSelected [bool] veriable. 
-- You are free to choose your model method as you like.
-
-</p>
-
-- ## Model List
-</p>
-
-```dart
-var branches = [
-    BranchModel(
-      name: 'https://cdn-icons-png.flaticon.com/512/3359/3359548.png',
-      subBranches: [
-        SubBranchModel(
-            isSelected: true,
-            text: 'https://cdn-icons-png.flaticon.com/512/4471/4471180.png'),
-        SubBranchModel(
-            isSelected: false,
-            text: 'https://cdn-icons-png.flaticon.com/512/5167/5167364.png'),
-        SubBranchModel(
-            isSelected: false,
-            text: 'https://cdn-icons-png.flaticon.com/512/5167/5167308.png'),
-      ],
-    ),
-    BranchModel(
-      name: 'https://cdn-icons-png.flaticon.com/512/2950/2950658.png',
-      subBranches: [
-        SubBranchModel(
-            isSelected: false,
-            text: 'https://cdn-icons-png.flaticon.com/512/1974/1974756.png'),
-        SubBranchModel(
-            isSelected: true,
-            text:
-                'https://cdn.dsmcdn.com//ty112/product/media/images/20210507/14/86656868/172072000/1/1_org_zoom.jpg'),
-        SubBranchModel(
-            isSelected: false,
-            text: 'https://cdn-icons-png.flaticon.com/512/5020/5020383.png'),
-        SubBranchModel(
-            isSelected: false,
-            text: 'https://cdn-icons-png.flaticon.com/512/5151/5151403.png'),
-        SubBranchModel(
-            isSelected: false,
-            text: 'https://cdn-icons-png.flaticon.com/512/836/836847.png'),
-      ],
-    ),
-    BranchModel(
-      name: 'https://cdn-icons-png.flaticon.com/512/4264/4264857.png',
-      subBranches: [
-        SubBranchModel(
-            isSelected: false,
-            text:
-                'https://dbdzm869oupei.cloudfront.net/img/sticker/preview/4944.png'),
-        SubBranchModel(
-            isSelected: false,
-            text: 'https://cdn-icons-png.flaticon.com/512/5046/5046975.png'),
-        SubBranchModel(
-            isSelected: false,
-            text: 'https://cdn-icons-png.flaticon.com/512/5151/5151407.png'),
-      ],
-    ),
-    BranchModel(
-      name: 'https://cdn-icons-png.flaticon.com/512/647/647740.png',
-      subBranches: [
-        SubBranchModel(
-            isSelected: false,
-            text: 'https://cdn-icons-png.flaticon.com/512/4442/4442758.png'),
-        SubBranchModel(
-            isSelected: false,
-            text: 'https://cdn-icons-png.flaticon.com/512/4683/4683605.png'),
-        SubBranchModel(
-            isSelected: true,
-            text: 'https://cdn-icons-png.flaticon.com/512/4683/4683591.png'),
-      ],
-    ),
-  ];
+      suffixIcon: const Icon(
+        Icons.done,
+        color: Colors.white,
+      ),
+      margin: const EdgeInsets.symmetric(
+          horizontal: 30.0, vertical: 5.0),
+    );
+  },
+  onSelect: (selectedId, isSelect) {
+    debugPrint("Seçili olan id : $selectedId değeri : $isSelect");
+  },
+  selectedList: selected,
+),
 ```
 
 
-## What does want Widget.
-
-### OnPress [Function] selection
- - Function(int branch, int sub, bool checked) onSelection
-
-### Branches return model.
- - int branchCount
-
-### Branches title. Botttom of branch child.
- - String Function(int branch) title
-
-### Skeleton of Branches [Widget] child.
- - BranchBuilder branchChild
-
-### [SubBranchActionDelegate] subBranches.
- - SubBranchActionBuilderDelegate subBranches
-
-### A collection of common animation curves.
-### [Curves.easeInCirc] FadeTransition.
- - Curve? curve
-
-### Entry create animation duration
- - Duration duration
-
-### [Color] background color. SubBranches selection screen.
- - Color? backgroundColor
-
-### SubBranch page transition animation time
- - Duration transtionDuration
-
-### [Duration] animation reverse duration.
- - Duration? reverseDuration
-
-### Background blur of the SubBranch page.
- - ImageFilter? imageFilter
-
-### The distance between branches is horizontal.
-### default value is 5.0
- - double crossAxisSpacing
-
-#### The distance between branches is vertical.
-#### default value is 0.0
- - final double mainAxisSpacing
-
-### The ratio of the cross-axis to the main-axis extent of each child.
- - double childAspectRatio
-
- 
- #### The maximum extent of tiles in the cross axis.
- #### This delegate will select a cross-axis extent for the tiles that is as
- #### large as possible subject to the following conditions:
- #### - The extent evenly divides the cross-axis extent of the grid.
- #### - The extent is at most [maxCrossAxisExtent].
- #### For example, if the grid is vertical, the grid is 500.0 pixels wide, and
- #### [maxCrossAxisExtent] is 150.0, this delegate will create a grid with 4
- #### Columns that are 125.0 pixels wide.
- - double maxCrossAxisExtent
-
-### Unselected background color.
- - Color? deactiveColor
-
-### Selected background color.
- -  Color? activeColor
-
-### Selected Title style.
- -  TextStyle? titleActiveStyle
-
-### Unselected title style.
- -  TextStyle? titleDeactiveStyle
-
-### Background box decoration.
- -  BoxDecoration? decoration
-
-### [Widget] backbutton.
- -  Widget? backButton
-
-### [String] title of back button.
- - String? titleBackButton
-
-### [Color] of checked background.
- - Color? checkBackground
-
-### [Color] of checked icon color.
- - Color? checkIconColor
-
-### Color circle background.
- - Color? selectedBackgroundColor
-
-### Icon color circle icon checked.
- - Color? checkedIconColor.

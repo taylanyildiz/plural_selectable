@@ -11,8 +11,6 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  flutter_polygon: ^0.2.0
-  cached_network_image: ^3.0.0
   plural_selectable:
     path: ../
 

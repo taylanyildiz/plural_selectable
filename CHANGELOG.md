@@ -9,3 +9,10 @@
 ## 0.0.3
 
 * TODO: Change README.md
+
+## 1.0.0
+* TODO:
+*  removed selectable decorations. 
+*  `bool` isSelected veraiable in builders has been added
+*  isSelected veriable in models has been removed
+*  all model have different id. 
